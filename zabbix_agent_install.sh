@@ -2,7 +2,7 @@
 #---------------------------------------------------------------------
 # Script: zabbix_agent_install.sh
 # Version: 2.1
-# Description: Installiere den Zabbix Agenten für Zabbix LTS 5.0.0
+# Description: Installiere den Zabbix Agenten für Zabbix > 5.0.0
 # Vorraussetzungen: 
 # - Hostname des Host ist richtig gesetzt(Hostname=Zabbix Hostname)
 # - Zabbix Server ist am Pollen
@@ -92,14 +92,14 @@ if echo "$ID" | grep -iq "debian"; then
 	#---------------------------------------------------------------------	
 	if echo "$VERSION_ID" | grep -iq "9"; then
 		DISTRO=debian9
-        STR_REPO_URL="wget wget https://repo.zabbix.com/zabbix/5.0/debian/pool/main/z/zabbix-release/zabbix-release_5.0-1+stretch_all.deb"
+        STR_REPO_URL="wget wget https://repo.zabbix.com/zabbix/5.4/debian/pool/main/z/zabbix-release/zabbix-release_5.4-1+debian9_all.deb"
         DISSTR="stretch"
 	#---------------------------------------------------------------------
 	#	Debian 10 Buster
 	#---------------------------------------------------------------------
 	elif echo "$VERSION_ID" | grep -iq "10"; then
 		DISTRO=debian10
-        STR_REPO_URL="wget https://repo.zabbix.com/zabbix/5.0/debian/pool/main/z/zabbix-release/zabbix-release_5.0-1+buster_all.deb"
+        STR_REPO_URL="wget https://repo.zabbix.com/zabbix/5.4/debian/pool/main/z/zabbix-release/zabbix-release_5.4-1+debian10_all.deb"
         DISSTR="buster"
 	fi
 elif echo "$ID" | grep -iq "ubuntu"; then
@@ -108,15 +108,15 @@ elif echo "$ID" | grep -iq "ubuntu"; then
 	#---------------------------------------------------------------------	
 	if echo "$VERSION_ID" | grep -iq "18.04"; then
 		DISTRO=ubuntu1804
-        STR_REPO_URL="wget wget https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+bionic_all.deb"
+        STR_REPO_URL="wget wget https://repo.zabbix.com/zabbix/5.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.4-1+ubuntu18.04_all.deb"
         DISSTR="bionic"
     #---------------------------------------------------------------------
 	#	Ubuntu 20.04 Focal Fossa
 	#---------------------------------------------------------------------	
 	elif echo "$VERSION_ID" | grep -iq "20.04"; then
 		DISTRO=ubuntu2004
-        STR_REPO_URL="wget https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+focal_all.deb"
-         DISSTR="focal"
+        STR_REPO_URL="wget https://repo.zabbix.com/zabbix/5.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.4-1+ubuntu20.04_all.deb"
+        DISSTR="focal"
     fi
 
 else
@@ -157,7 +157,7 @@ echo -e "Computer name:\t\t\t\t$HOSTNAME"
 echo -e "Hostname:\t\t\t\t$HOSTNAME_FQDN"
 TIME_ZONE=$(timedatectl 2>/dev/null | grep -i 'time zone\|timezone' | sed -n 's/^.*: //p')
 echo -e "Time zone:\t\t\t\t$TIME_ZONE"
-echo "The IP address is: \t\t\t\t${IP_ADDRESS[0]}"
+echo -e "The IP address is: \t\t\t\t${IP_ADDRESS[0]}"
 echo
 
 echo -e "${YELLOW}[I] Zabbix Repository downloaden${RED}"
@@ -171,7 +171,7 @@ else
 fi
 echo
 echo -e "${YELLOW}[I] Weiter mit dem Einlesen des Paketes${RED}"
-dpkg -i zabbix-release_5.0-1+${DISSTR}_all.deb
+dpkg -i zabbix-release_5.4-1+${DISSTR}_all.deb
 if [ $? -ne 0 ];then
     echo -e "${BLUE}[E] --> Das Repository konnte nicht eingelesen werden${RED}"
     tput setaf 9
